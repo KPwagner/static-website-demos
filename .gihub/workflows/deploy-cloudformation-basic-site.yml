@@ -1,0 +1,49 @@
+name: Deploy Stack and Sync Website
+on:
+  workflow_dispatch:
+
+permissions:
+  id-token: write
+  contents: read
+
+jobs:
+  deploy-website:
+    name: Deploy Website
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: cloudformation-basic-site
+    steps:
+      - name: Checkout Github Repo
+        uses: actions/checkout@v4
+
+      # Establish AWS credentials. Options include: IAM Role or Access Key
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: # {{-- role ARN from your AWS account  --}}
+          aws-region: us-east-1
+
+      - name: Deploy Cloudformation Stack
+        run: |
+          sam deploy --parameter-overrides DomainName={{-- use your domain name if including the DomainName parameter --}}
+
+      - name: Sync Website to S3 Bucket
+        description: dynamically fetch the bucket name from the stack output, and sync the website files to the bucket
+        run: |
+          bucketname=$(aws cloudformation describe-stacks \
+                        --stack-name cloudformation-basic-site \
+                        --query 'Stacks[0].Outputs[?OutputKey==`WebsiteBucketName`].OutputValue' \
+                        --output text)
+          aws s3 sync ./website s3://$bucketname/ --delete
+
+      - name: Invalidate Cloudfront Cache
+        description: dynamically fetch the distribution id from the stack output, and invalidate the cache
+        run: |
+          distributionid=$(aws cloudformation describe-stacks \
+                          --stack-name cloudformation-basic-site \
+                          --query 'Stacks[0].Outputs[?OutputKey==`CloudFrontDistributionId`].OutputValue' \
+                          --output text)
+          aws cloudfront create-invalidation \
+            --distribution-id $distributionid \
+            --paths "/*"

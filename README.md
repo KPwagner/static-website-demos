@@ -9,6 +9,12 @@ This project includes an example static website intended to be deployed to an AW
 
 The project includes an AWS CloudFormation example. Terraform and CDK will follow. If you plan to use Terraform or CDK for your websites infrasture as code (IaC), the example CloudFormation template may still help you.
 
+## Infrastrucure Overview
+
+![](./docs/static-website-full.png)
+
+![](./docs/static-website-cloudfront-dark.png)
+
 ## How to use this project
 
 The purpose of this project is to provide a complete working example of an HTTPS website with a custom domain. It's not a `copy all + paste`. You will need to examine the code and pick what you need and of course troubleshoot deployment problems. While this project is not a total __easy button__, a complete project that uses IaC can save you a lot of time.
@@ -17,5 +23,10 @@ The purpose of this project is to provide a complete working example of an HTTPS
 
 ## Example Deployment Pipeline
 
+![](./docs/static-website-project-overview-wide-dark.png)
+
+![](./docs/github-workflow-graphic-with-description.png)
+
 ## Example Website
 
+## Resources
