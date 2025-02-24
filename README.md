@@ -83,6 +83,12 @@ When the GitHub Actions workflow runs:
 3. It uploads all files in the `website/` directory to that S3 bucket.
 4. It invalidates the CloudFront distribution cache so changes are served immediately.
 
+![GitHub Actions Deployment Flow](./docs/github-workflow-graphic-with-description.png)
+
+If you do include a Github workflow for your project, including a trigger on commits to main branch is common. Continuous integration!
+
+![diagram showing the flow of code committed to deployment](./docs/static-website-project-overview-wide-dark.png)
+
 You can also deploy manually with SAM/CloudFormation from your local machine:
 
     cd cloudformation-basic-site
@@ -99,15 +105,9 @@ After deployment:
 2. Access the website by pointing your browser to that domain.  
 3. If you added a custom domain, confirm your DNS settings in Route53, and wait for DNS propagation (which can take up to 24 hours).
 
-## Deployment Pipeline
+You can access always access the website from the CloudFront distribution endpoint, even if you are using a custom domain.
 
-![GitHub Actions Deployment Flow](./docs/github-workflow-graphic-with-description.png)
-
-1. **Checkout Code** – Pulls the repository code.  
-2. **Configure AWS** – Sets up credentials for AWS.  
-3. **Deploy CloudFormation Stack** – Creates or updates the stack.  
-4. **Sync Website Content** – Uploads static site files to the S3 bucket.  
-5. **Invalidate CloudFront Cache** – Ensures changes are immediately visible.
+![diagram showing a cloudfront distribuution and supporting infrastrucutre](./docs/static-website-cloudfront-dark.png)
 
 ## Contributing
 Contributions are welcome! If you have suggestions, encounter bugs, or have feature requests, feel free to open an [Issue](../../issues) or submit a [Pull Request](../../pulls).
