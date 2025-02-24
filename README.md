@@ -105,7 +105,7 @@ After deployment:
 2. Access the website by pointing your browser to that domain.  
 3. If you added a custom domain, confirm your DNS settings in Route53, and wait for DNS propagation (which can take up to 24 hours).
 
-You can access always access the website from the CloudFront distribution endpoint, even if you are using a custom domain.
+You can always access the website from the CloudFront distribution endpoint, even if you are using a custom domain.
 
 ![diagram showing a cloudfront distribuution and supporting infrastrucutre](./docs/static-website-cloudfront-dark.png)
 
